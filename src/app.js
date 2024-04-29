@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const compression = require("compression");
 const express = require("express");
 const { default: helmet } = require("helmet");
@@ -5,6 +7,7 @@ const morgan = require("morgan");
 const app = express();
 const { checkOverload } = require("./helpers/check.connect");
 
+// console.log(process.env);
 // init middlewares
 
 /* 
