@@ -16,7 +16,7 @@ const dev = {
 
 const production = {
 	app: {
-		port: process.env.PROD_PORT || 2405,
+		port: process.env.PROD_PORT || 5000,
 	},
 	db: {
 		host: process.env.PROD_DB_HOST || "localhost",
@@ -26,6 +26,6 @@ const production = {
 };
 
 const config = { dev, production };
-const env = process.env.NODE_ENV || "dev";
+const env = process.env.NODE_ENV?.trim() || "dev";
 
 module.exports = config[env];
