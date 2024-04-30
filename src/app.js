@@ -43,7 +43,7 @@ app.use(express.urlencoded({ extended: true }));
     6. What is poolSize ? [ max number of connections to database ]
     7. What happened when over connecting poolSize ? [ if overload, the next will wait in queue ]
 */
-require("./dbs/init.mongodb"); // Singleton - A method or class that only construct once
+require("./database/init.mongodb"); // Singleton - A method or class that only construct once
 checkOverload();
 
 // init routers
