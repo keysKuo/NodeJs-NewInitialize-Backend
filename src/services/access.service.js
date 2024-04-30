@@ -36,28 +36,27 @@ class AccessService {
 				roles: [RoleShop.SHOP],
 			});
 
+			/*
+				Khúc này hơi chết não nên sẽ docs bằng tiếng việt
+				Lưu ý là phải có phần options về publicKeyEncoding và privateKeyEncoding để nó mã hóa thành đúng định dạng
+
+				(Step1) Generate publicKey & privateKey
+					+ function: generateKeytPairSync từ npm crypto
+					+ params: "rsa" - algorithm (sha256,sha2,...)
+								publicKeyEncoding, privateKeyEncoding - định dạng mã hóa cho các keys
+
+				(Step2) KeyTokenService.createKeyToken nhằm lưu PublicKey dưới dạng string vào database
+					+ params: userId , publicKey (original generated)
+
+				(Step3) Tạo publicKeyObject - Chỗ này chưa làm rõ được tại sao là publicKeyString or publicKeyObject
+
+				(Step4) Tạo tokenPair(accessToken, refreshToken) với JWT
+					- problems: Ở đây không hiểu vì sao publicKey lại phải là object trong khi privateKey thì String
+					+ params: payload - data để mã hóa
+								publicKeyObject - publicKey dưới dạng Object
+								privateKey
+			*/
 			if (newShop) {
-				/*
-					Khúc này hơi chết não nên sẽ docs bằng tiếng việt
-					Lưu ý là phải có phần options về publicKeyEncoding và privateKeyEncoding để nó mã hóa thành đúng định dạng
-
-					(Step1) Generate publicKey & privateKey
-						+ function: generateKeytPairSync từ npm crypto
-						+ params: "rsa" - algorithm (sha256,sha2,...)
-								  publicKeyEncoding, privateKeyEncoding - định dạng mã hóa cho các keys
-
-					(Step2) KeyTokenService.createKeyToken nhằm lưu PublicKey dưới dạng string vào database
-						+ params: userId , publicKey (original generated)
-
-					(Step3) Tạo publicKeyObject - Chỗ này chưa làm rõ được tại sao là publicKeyString or publicKeyObject
-
-					(Step4) Tạo tokenPair(accessToken, refreshToken) với JWT
-						- problems: Ở đây không hiểu vì sao publicKey lại phải là object trong khi privateKey thì String
-						+ params: payload - data để mã hóa
-								  publicKeyObject - publicKey dưới dạng Object
-								  privateKey
-				*/
-
 				/* Step 1 */
 				const { privateKey, publicKey } = crypto.generateKeyPairSync(
 					"rsa",
@@ -85,6 +84,7 @@ class AccessService {
 				const publicKeyString = await KeyTokenService.createKeyToken({
 					userId: newShop._id,
 					publicKey,
+					privateKey
 				});
 
 				if (!publicKeyString) {
@@ -109,7 +109,7 @@ class AccessService {
 				/* Step 4 */
 				const tokens = await createTokenPair(
 					{ userId: newShop._id, email },
-					publicKeyObject,
+					publicKey,
 					privateKey
 				);
 				console.log(
@@ -122,8 +122,8 @@ class AccessService {
 					status: "success",
 					metadata: {
 						shop: getInfoData({
-							fields: ["_id", "name", "email"],
 							object: newShop,
+							fields: ["_id", "name", "email"],
 						}),
 						tokens,
 					},
