@@ -82,12 +82,10 @@ class AccessService {
 				const storedKeyToken = await KeyTokenService.createKeyToken({
 					userId: newShop._id,
 					publicKey,
-					privateKey
+					privateKey,
 				});
-				
-				console.log(
-					`✔️  Stored keyToken: ` + storedKeyToken
-				);
+
+				console.log(`✔️  Stored keyToken: ` + { storedKeyToken });
 
 				/* Step 3 */
 				const tokens = await createTokenPair(
@@ -95,10 +93,7 @@ class AccessService {
 					publicKey,
 					privateKey
 				);
-				console.log(
-					`✔️  Created accessToken & refreshToken: `,
-					tokens
-				);
+				console.log(`✔️  Created accessToken & refreshToken: `, tokens);
 
 				return {
 					code: 200,
