@@ -48,9 +48,7 @@ class AccessService {
 				(Step2) KeyTokenService.createKeyToken nhằm lưu PublicKey dưới dạng string vào database
 					+ params: userId , publicKey (original generated)
 
-				(Step3) Tạo publicKeyObject - Chỗ này chưa làm rõ được tại sao là publicKeyString or publicKeyObject
-
-				(Step4) Tạo tokenPair(accessToken, refreshToken) với JWT
+				(Step3) Tạo tokenPair(accessToken, refreshToken) với JWT
 					- problems: Ở đây không hiểu vì sao publicKey lại phải là object trong khi privateKey thì String
 					+ params: payload - data để mã hóa
 								publicKeyObject - publicKey dưới dạng Object
@@ -76,44 +74,29 @@ class AccessService {
 				);
 
 				console.log(
-					`✔️  1.Generated publicKey & privateKey: ` +
+					`✔️  Generated publicKey & privateKey: ` +
 						{ publicKey, privateKey }
 				);
 
 				/* Step 2 */
-				const publicKeyString = await KeyTokenService.createKeyToken({
+				const storedKeyToken = await KeyTokenService.createKeyToken({
 					userId: newShop._id,
 					publicKey,
 					privateKey
 				});
-
-				if (!publicKeyString) {
-					return {
-						code: 500,
-						status: "error",
-						msg: "Create publicKeyString Error",
-					};
-				}
-
+				
 				console.log(
-					`✔️  2.Created publicKeyString + StoreDB: ` +
-						{ publicKeyString }
+					`✔️  Stored keyToken: ` + storedKeyToken
 				);
 
 				/* Step 3 */
-				const publicKeyObject = crypto.createPublicKey(publicKeyString);
-				console.log(
-					`✔️  3.Created publicKeyObject: ` + publicKeyObject
-				);
-
-				/* Step 4 */
 				const tokens = await createTokenPair(
 					{ userId: newShop._id, email },
 					publicKey,
 					privateKey
 				);
 				console.log(
-					`✔️  4.Created accessToken & refreshToken: `,
+					`✔️  Created accessToken & refreshToken: `,
 					tokens
 				);
 

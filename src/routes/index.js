@@ -1,7 +1,10 @@
 "use strict";
 
 const express = require("express");
+const { checkApiKey, checkPermission } = require("../auth/checkAuth");
 const router = express.Router();
+
+router.use(checkApiKey, checkPermission('0000'));
 
 router.use('/access', require('./access'));
 router.use('/shop', require('./shop'));
