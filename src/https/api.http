@@ -1,0 +1,11 @@
+@url_dev = http://localhost:2405/v1/api
+### test api
+
+POST {{url_dev}}/access/signup
+Content-Type: application/json
+
+{
+    "name": "Shop TIPS 2",
+    "email": "nkeyskuo1245@gmail.com",
+    "password": "test123"
+}

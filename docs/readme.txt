@@ -1,0 +1,1 @@
+1. Các Services sẽ được gọi trong Controllers rồi gắn vào các Routes 

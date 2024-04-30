@@ -13,10 +13,10 @@ class Database {
 
 	// connect method
 	connect(type = "mongodb") {
-		if (1 === 1) {
-			mongoose.set("debug", true);
-			mongoose.set("debug", { color: true });
-		}
+		// if (1 === 1) {
+		// 	mongoose.set("debug", true);
+		// 	mongoose.set("debug", { color: true });
+		// }
 
 		mongoose
 			.connect(connectString, { maxPoolSize: 100 })
@@ -24,7 +24,7 @@ class Database {
 				console.log(`⭐ Connected ${connectString}`);
 				countConnect();
 			})
-			.catch((err) => console.log(`Error: ${err}`));
+			.catch((err) => console.error('🐞 Error: ' + err));
 	}
 
 	static getInstance() {

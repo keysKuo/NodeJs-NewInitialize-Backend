@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const compression = require("compression");
 const express = require("express");
@@ -30,6 +30,8 @@ app.use(helmet());
     Compression - Reduce metadata response by compressing
 */
 app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // init database
 /*
@@ -45,6 +47,8 @@ require("./dbs/init.mongodb"); // Singleton - A method or class that only constr
 checkOverload();
 
 // init routers
+app.use("/v1/api", require("./routes"));
+
 app.get("/", (req, res, next) => {
 	return res.status(200).json({
 		msg: "Server Initialization",
