@@ -7,7 +7,7 @@ const HEADER = {
 	AUTHORIZATION: "authorization",
 };
 
-const apiKey = async (req, res, next) => {
+const checkApiKey = async (req, res, next) => {
 	try {
 		const key = req.headers[HEADER.API_KEY]?.toString();
 		if (!key) {
@@ -37,7 +37,7 @@ const apiKey = async (req, res, next) => {
     }
 };
 
-const permission = (permission) => {
+const checkPermission = (permission) => {
     return (req, res, next) => {
         if(!req.objKey.permissions) {
             return res.status(403).json({
@@ -58,4 +58,4 @@ const permission = (permission) => {
     }
 }
 
-module.exports = { apiKey, permission };
+module.exports = { checkApiKey, checkPermission };
