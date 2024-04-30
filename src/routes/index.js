@@ -11,7 +11,7 @@ router.use('/shop', require('./shop'));
 
 router.get("/", (req, res, next) => {
 	return res.status(200).json({
-		msg: `Set up api router`,
+		msg: `Welcome to API`,
 	});
 });
 
