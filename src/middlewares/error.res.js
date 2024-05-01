@@ -11,27 +11,27 @@ const ReasonStatusCode = {
 };
 
 class ErrorResponse extends Error {
-	constructor(message, status) {
+	constructor(message, code) {
 		super(message);
-		this.status = status;
+		this.code = code;
 	}
 }
 
 class ConflictRequestError extends ErrorResponse {
 	constructor(
 		message = ReasonStatusCode.CONFLICT,
-		status = StatusCode.CONFLICT
+		code = StatusCode.CONFLICT
 	) {
-		super(message, status);
+		super(message, code);
 	}
 }
 
 class BadRequestError extends ErrorResponse {
     constructor(
         message = ReasonStatusCode.FORBIDDEN,
-        status = StatusCode.FORBIDDEN
+        code = StatusCode.FORBIDDEN
     ) {
-        super(message, status);
+        super(message, code);
     }
 }
 

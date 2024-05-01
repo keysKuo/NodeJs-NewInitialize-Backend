@@ -2,7 +2,7 @@
 
 ###
 
-POST {{api_url}}/apikey/createApiKey
+POST {{api_url}}/apikey/create
 Content-Type: application/json
 
 {
@@ -10,7 +10,14 @@ Content-Type: application/json
     "keyName": "nkeysKuo ApiKey"
 }
 
+
+###
+
+DELETE {{api_url}}/apikey/delete/663124f5dd68c69e4a310795
+Content-Type: application/json 
+
+
 ###
 
 GET {{api_url}}/testapi
-x-api-key: 8e237331179b0f4e1c2d527db4c043b8371381cffb47e31a3b7edd1416d449ba6866f08d95390a9e3d421b17ad93dd28cfdf2bccadd40929225620ee263f080b
+x-api-key: f3eff0e406aeecb1e9eb7ead9b8c7c0c0a94a07d9e1b5cdeacea4eb592516223d0c478a9905b9eb75d134c94fa65b4dc0d7b51cf0ce55771e51d38cc60212769

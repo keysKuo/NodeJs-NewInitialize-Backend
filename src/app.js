@@ -61,7 +61,7 @@ app.get("/", (req, res, next) => {
 // handling error
 
 app.use((req, res, next) => {
-	const error = new Error("404 Not Found");
+	const error = new Error("❌ 404 Not Found");
 	error.status = 404;
 
 	next(error);
@@ -70,9 +70,9 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
 	const statusCode = err.status || 500;
 	return res.status(statusCode).json({
-		status: "error",
+		success: false,
 		code: statusCode,
-		message: err.message || "Internal Server Error",
+		message: err.message || "❌ Internal Server Error",
 	});
 });
 

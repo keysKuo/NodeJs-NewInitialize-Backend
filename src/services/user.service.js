@@ -3,7 +3,6 @@
 const { generateKeyPair, createTokenPair } = require("../auth/auth.utils");
 const { BadRequestError } = require("../middlewares/error.res");
 const userModel = require("../models/user.model");
-const { filterData } = require("../utils");
 const TokenService = require("./token.service");
 const bcrypt = require('bcrypt');
 
@@ -70,17 +69,10 @@ class UserService {
 			refreshToken,
 		});
 
-        return {
-            status: 'success',
-            code: 201,
-            metadata: {
-                user: filterData({
-                    object: newUser,
-                    fields: ['_id', 'fullname', 'email', 'phone', 'status', 'role']
-                }),
-                tokens: { accessToken, refreshToken }
-            }
-        }
+		return {
+			user: newUser,
+			tokens: { accessToken, refreshToken }
+		}
 	};
 }
 

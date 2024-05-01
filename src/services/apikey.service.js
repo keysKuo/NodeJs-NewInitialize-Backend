@@ -31,7 +31,23 @@ class ApiKeyService {
     }
 
     static findByKey = async (key) => {
-        return await apikeyModel.findOne({key, status: true}).lean();
+        const apiKey = await apikeyModel.findOne({key, status: true}).lean();
+
+        if(!apiKey) {
+            throw new BadRequestError(`❌ Error: ApiKey not found!`);
+        }
+
+        return apiKey;
+    }
+
+    static deleteApiKey = async (userId) => {
+        const deletedApiKey =  await apikeyModel.findOneAndDelete({user: userId}).lean();
+
+        if(!deletedApiKey) {
+            throw new BadRequestError(`❌ Error: ApiKey not found!`);
+        }
+
+        return deletedApiKey;
     }
 };
 
