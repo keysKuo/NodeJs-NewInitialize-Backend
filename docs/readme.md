@@ -12,6 +12,41 @@
 
 
 2.  Implement Singleton Design Pattern
+
+
+    ```javascript
+    class Database {
+        constructor() {
+            this.connect();
+        }
+
+        // connect method
+        connect(type = "mongodb") {
+            if (1 === 1) {
+                mongoose.set("debug", true);
+                mongoose.set("debug", { color: true });
+            }
+
+            mongoose
+                .connect(connectString, { maxPoolSize: 100 }) // replace connectionString
+                .then(() => {
+                    console.log(`⭐ Connected ${connectString}`);
+                    countConnect();
+                })
+                .catch((err) => console.log(`Error: ${err}`));
+        }
+
+        static getInstance() {
+            if (!Database.instance) {
+                Database.instance = new Database();
+            }
+
+            return Database.instance;
+        }
+    }
+    ```
+
+
 3.  Implement Error Handling with catchAsync
 
 
@@ -81,7 +116,41 @@
     ```
 
 
-6.  Redirect Environment Variables
+6.  Seperate Environment Variables for Development and Production
+
+
+    ```javascript
+    require('dotenv').config();
+
+    const dev = {
+        app: {
+            port: process.env.DEV_PORT || 2405,
+        },
+        db: {
+            host: process.env.DEV_DB_HOST || "localhost",
+            port: process.env.DEV_DB_PORT || 27017,
+            name: process.env.DEV_DB_NAME || "dbDev",
+        },
+    };
+
+    const production = {
+        app: {
+            port: process.env.PROD_PORT || 5000,
+        },
+        db: {
+            host: process.env.PROD_DB_HOST || "localhost",
+            port: process.env.PROD_DB_HOST || 27017,
+            name: process.env.PROD_DB_HOST || "dbProduction",
+        },
+    };
+
+    const config = { dev, production };
+    const env = process.env.NODE_ENV?.trim() || "dev";
+
+    module.exports = config[env];
+    ```
+
+
 7.  Overload Detection by Memory Usage
 
 
