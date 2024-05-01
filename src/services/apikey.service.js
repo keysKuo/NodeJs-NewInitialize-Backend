@@ -7,21 +7,22 @@ const crypto = require('crypto');
 class ApiKeyService {
     
     static createApiKey = async ({ userId, keyName = 'Default ApiKey', permissions = ['0000']}) => {
-        const holderKey = await apikeyModel.findOne({user: userId}).lean();
-
-        if(holderKey) {
-            throw new BadRequestError(`❌ Error: User already had ApiKey`);
-        }
-
         const nextMonth = new Date();
         nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-        const newApiKey = await apikeyModel.create({
+        const filter = { user: userId };
+
+        const update = {
             user: userId,
             key: crypto.randomBytes(64).toString('hex'),
             name: keyName,
+            expiry: nextMonth,
             permissions
-        })
+        };
+
+        const options = { upsert: true, new: true };
+
+        const newApiKey = await apikeyModel.findOneAndUpdate(filter, update, options)
 
         if(!newApiKey) {
             throw new BadRequestError(`❌ Error: Created newApiKey fail!`);

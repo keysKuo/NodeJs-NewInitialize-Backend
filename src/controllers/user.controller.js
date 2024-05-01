@@ -5,10 +5,26 @@ const UserService = require("../services/user.service");
 
 class UserController {
 
+    static logout = async (req, res, next) => {
+        return new SuccessResponse({
+            code: 200,
+            message: `✔️ Logout Success!`,
+            metadata: await UserService.logout(req.keyStore._id)
+        }).send(res);
+    }
+
+    static login = async (req, res, next) => {
+        return new SuccessResponse({
+            code: 200,
+            message: `✔️ Login Success!`,
+            metadata: await UserService.login({...req.body})
+        }).send(res);
+    }
+
     static register = async (req, res, next) => {
         return new SuccessResponse({
             code: 201,
-            message: `✔️  User registered!`,
+            message: `✔️ User registered!`,
             metadata: await UserService.register({...req.body})
         }).send(res);
     }

@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-	const statusCode = err.status || 500;
+	const statusCode = err.code || 500;
 	return res.status(statusCode).json({
 		success: false,
 		code: statusCode,
