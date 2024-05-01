@@ -1,0 +1,13 @@
+@api_url = http://localhost:2405/v1/api
+
+###
+
+POST {{api_url}}/user/register
+Content-Type: application/json 
+
+{
+    "fullname": "Kuo Nhan Dung",
+    "email": "nkeyskuo124@gmail.com",
+    "password": "9952811",
+    "phone": "0767916592"
+}

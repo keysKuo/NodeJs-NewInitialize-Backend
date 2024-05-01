@@ -1,0 +1,16 @@
+@api_url = http://localhost:2405/v1/api
+
+###
+
+POST {{api_url}}/apikey/createApiKey
+Content-Type: application/json
+
+{
+    "userId": "663124f5dd68c69e4a310795",
+    "keyName": "nkeysKuo ApiKey"
+}
+
+###
+
+GET {{api_url}}/testapi
+x-api-key: 8e237331179b0f4e1c2d527db4c043b8371381cffb47e31a3b7edd1416d449ba6866f08d95390a9e3d421b17ad93dd28cfdf2bccadd40929225620ee263f080b
