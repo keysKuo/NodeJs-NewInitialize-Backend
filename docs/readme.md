@@ -30,11 +30,11 @@ To run this project, make sure that your environment have all of these framework
     ```sh
     npm run dev
     ```
-    > 🚀 Server ready on port 2405
+    > **🚀 Server ready on port <span style="color: #71B190">2405</span>**
     >
-    > ⭐ Connected mongodb://localhost:27017/EzPractice
+    > **⭐ Connected mongodb://localhost:27017/EzPractice**
     >
-    > 🔥 Number of connections: 1
+    > **🔥 Number of connections: 1**
     >
 
 [Node.js]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
