@@ -6,6 +6,7 @@
 -   Security with Symmetric Keypair
 -   Authenticate permission with APIKey
 -   Evironment variables redirection
+-   Connections analyzation
 
 ### Built With
 
@@ -30,8 +31,11 @@ To run this project, make sure that your environment have all of these framework
     npm run dev
     ```
     > 🚀 Server ready on port 2405
+    >
     > ⭐ Connected mongodb://localhost:27017/EzPractice
+    >
     > 🔥 Number of connections: 1
+    >
 
 [Node.js]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
 [Node-url]: https://nodejs.org/
