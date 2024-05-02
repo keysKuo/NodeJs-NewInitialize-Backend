@@ -8,13 +8,33 @@ const router = express.Router();
 
 router.post("/register", catchAsync(UserController.register));
 
-router.use(catchAsync(authPermission("0000")));
+router.use(catchAsync(authPermission("0000"))); // check APIKEY
+
+/*
+	x-api-key		
+*/
 router.post("/login", catchAsync(UserController.login));
 
+/*
+	x-api-key
+	x-client-id
+	Authorization
+*/
 router.post(
 	"/logout",
 	catchAsync(authToken),
 	catchAsync(UserController.logout)
+);
+
+/*
+	x-api-key
+	x-client-id
+	Authorization
+*/
+router.post(
+	"/refreshTokenPair",
+	catchAsync(authToken),
+	catchAsync(UserController.refreshTokenPair)
 );
 
 module.exports = router;

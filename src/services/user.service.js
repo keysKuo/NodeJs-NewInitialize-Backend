@@ -1,6 +1,10 @@
 "use strict";
 
-const { generateKeyPair, createTokenPair } = require("../auth/auth.utils");
+const {
+	generateKeyPair,
+	createTokenPair,
+	verifyJWT,
+} = require("../auth/auth.utils");
 const { BadRequestError } = require("../middlewares/error.res");
 const userModel = require("../models/user.model");
 const KeyStoreService = require("./keystore.service");
@@ -12,15 +16,63 @@ const UserRole = {
 };
 
 class UserService {
-	static logout = async (keyStoreId) => {
-		const delkey = await KeyStoreService.deleteKeyStore(keyStoreId);
+	static refreshTokenPair = async (refreshToken) => {
+		/*
+			1. Check if tokenPair refreshed or not ? if yes break both
+			2. Verify JWT old tokenPair
+			3. Refresh new tokenPair for user
+			=> Summary: RefreshToken only used once
+		*/
 
-		if(!delkey) {
+		const refreshedKeyStore = await KeyStoreService.deleteRefreshedKeyStore(
+			refreshToken
+		);
+
+		if (refreshedKeyStore) {
+			throw new BadRequestError(`❌ Error: Abnormally Behavior!`, 300);
+		}
+
+		const holderKeyStore = await KeyStoreService.findByRefreshToken(
+			refreshToken
+		);
+
+		const { userId, email } = await verifyJWT(
+			refreshToken,
+			holderKeyStore.privateKey
+		);
+		console.log(email);
+
+		const foundUser = await userModel.findOne({ email });
+
+		if (!foundUser) {
+			throw new BadRequestError(`❌ Error: User not exists!`, 404);
+		}
+
+		const newTokenPair = await createTokenPair(
+			{ userId, email },
+			holderKeyStore.publicKey,
+			holderKeyStore.privateKey
+		);
+
+		holderKeyStore.refreshToken = newTokenPair.refreshToken;
+		holderKeyStore.refreshTokensUsed = [...holderKeyStore.refreshTokensUsed, refreshToken]
+		await holderKeyStore.save();
+
+		return {
+			user: { userId, email },
+			newTokenPair,
+		};
+	};
+
+	static logout = async (keyStoreId) => {
+		const delkey = await KeyStoreService.deleteKeyStoreById(keyStoreId);
+
+		if (!delkey) {
 			throw new BadRequestError(`❌ Error: Delete KeyStore Fail!`, 500);
 		}
 
 		return delkey;
-	}
+	};
 
 	static login = async ({ email, password }) => {
 		const foundUser = await userModel.findOne({ email }).lean();
@@ -91,7 +143,6 @@ class UserService {
 
 		return {
 			user: newUser,
-			tokens: { accessToken, refreshToken },
 		};
 	};
 }

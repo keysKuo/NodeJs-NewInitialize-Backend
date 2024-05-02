@@ -5,6 +5,14 @@ const UserService = require("../services/user.service");
 
 class UserController {
 
+    static refreshTokenPair = async (req, res, next) => {
+        return new SuccessResponse({
+            code: 200,
+            message: `✔️ Refresh New TokenPair!`,
+            metadata: await UserService.refreshTokenPair(req.body.refreshToken)
+        }).send(res);
+    }
+
     static logout = async (req, res, next) => {
         return new SuccessResponse({
             code: 200,

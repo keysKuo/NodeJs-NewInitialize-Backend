@@ -3,7 +3,7 @@
 const { BadRequestError } = require("../middlewares/error.res");
 const ApiKeyService = require("../services/apikey.service");
 const KeyStoreService = require("../services/keystore.service");
-const JWT = require("jsonwebtoken");
+const { verifyJWT } = require("./auth.utils");
 
 const HEADERS = {
 	X_API_KEY: "x-api-key",
@@ -63,12 +63,13 @@ const authToken = async (req, res, next) => {
 		throw new BadRequestError(`❌ Error: AccessToken Not Found!`, 404);
 	}
 
-	const decode = JWT.verify(accessToken, keyStore.publicKey);
-
+	const decode = await verifyJWT(accessToken, keyStore.publicKey);
+	
 	if (!decode) {
-		throw BadRequestError(`❌ Error: Invalid Key!`, 500);
+		throw new BadRequestError(`❌ Error: Invalid Signature!`, 500);
 	}
 
+	console.log(decode)
 	if (clientId !== decode.userId) {
 		throw new BadRequestError(`❌ Error: ClientId Invalid!`, 300);
 	}
