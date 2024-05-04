@@ -7,6 +7,8 @@ const morgan = require("morgan");
 const app = express();
 const { checkOverload } = require("./helpers/check.connect");
 const cors = require("cors");
+const cookieParser = require('cookie-parser')
+const expressSession = require('express-session');
 
 // console.log(process.env);
 // init middlewares
@@ -19,21 +21,24 @@ const cors = require("cors");
         common - lack of resource
         short - short notification
         tiny - shortest notification
-*/
-app.use(morgan("dev"));
-
-/*
+    
     Helmet - Protect server from headers scanning
-*/
-app.use(helmet());
-
-/*
     Compression - Reduce metadata response by compressing
 */
+
+app.use(morgan("dev"));
+app.use(helmet());
 app.use(compression());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(expressSession({
+    secret: 'nkeyskuo SUDTECHNOLOGY',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }));
 
 // init database
 /*
@@ -72,6 +77,7 @@ app.use((err, req, res, next) => {
 	return res.status(statusCode).json({
 		success: false,
 		code: statusCode,
+        stack: err.stack,
 		message: err.message || "❌ Internal Server Error",
 	});
 });

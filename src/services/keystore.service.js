@@ -33,7 +33,7 @@ class KeyStoreService {
 	};
 
 	static findByUser = async (userId) => {
-		const keyStore = await keystoreModel.findOne({ user: userId }).lean();
+		const keyStore = await keystoreModel.findOne({ user: userId });
 
 		if (!keyStore) {
 			throw new BadRequestError(`❌ Error: KeyStore Not Found!`, 404);
@@ -55,6 +55,10 @@ class KeyStoreService {
 	static deleteKeyStoreById = async (keyStoreId) => {
 		return await keystoreModel.deleteOne({ _id: keyStoreId });
 	};
+
+	static deleteKeyStoreByUser = async (userId) => {
+		return await keystoreModel.deleteOne({ user: userId });
+	}
 
 	static deleteRefreshedKeyStore = async (refreshToken) => {
 		return await keystoreModel.findOneAndDelete({ refreshTokensUsed: refreshToken}).lean();

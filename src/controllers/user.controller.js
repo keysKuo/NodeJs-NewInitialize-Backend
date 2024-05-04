@@ -9,7 +9,11 @@ class UserController {
         return new SuccessResponse({
             code: 200,
             message: `✔️ Refresh New TokenPair!`,
-            metadata: await UserService.refreshTokenPair(req.body.refreshToken)
+            metadata: await UserService.refreshTokenPairV2({
+                keyStore: req.keyStore,
+                userId: req.userId,
+                refreshToken: req.refreshToken
+            })
         }).send(res);
     }
 

@@ -15,26 +15,17 @@ router.use(catchAsync(authPermission("0000"))); // check APIKEY
 */
 router.post("/login", catchAsync(UserController.login));
 
-/*
-	x-api-key
-	x-client-id
-	Authorization
-*/
-router.post(
-	"/logout",
-	catchAsync(authToken),
-	catchAsync(UserController.logout)
-);
+// Authentication Tokens
+router.use(catchAsync(authToken));
 
 /*
-	x-api-key
-	x-client-id
-	Authorization
+@headers	x-api-key,x-client-id,Authorization
 */
-router.post(
-	"/refreshTokenPair",
-	catchAsync(authToken),
-	catchAsync(UserController.refreshTokenPair)
-);
+router.post("/logout", catchAsync(UserController.logout));
+
+/*
+@headers	x-api-key, x-client-id, x-rtoken-id
+*/
+router.post("/refreshTokenPair", catchAsync(UserController.refreshTokenPair));
 
 module.exports = router;

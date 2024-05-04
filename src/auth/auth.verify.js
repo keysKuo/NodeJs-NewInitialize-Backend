@@ -3,12 +3,13 @@
 const { BadRequestError } = require("../middlewares/error.res");
 const ApiKeyService = require("../services/apikey.service");
 const KeyStoreService = require("../services/keystore.service");
-const { verifyJWT } = require("./auth.utils");
+const { verifyJWT, matchUserId } = require("./auth.utils");
 
 const HEADERS = {
 	X_API_KEY: "x-api-key",
 	X_CLIENT_ID: "x-client-id",
 	AUTHORIZATION: "authorization",
+	REFRESHTOKEN: "x-rtoken-id",
 };
 
 const authPermission = (permission) => {
@@ -40,42 +41,39 @@ const authPermission = (permission) => {
 };
 
 const authToken = async (req, res, next) => {
-	/*
-        1. Check X-Client-ID
-        2. Find accessToken from Database
-        3. Verify accessToken
-        4. Check User
-        5. Check Token By UserId
-        => Use accessToken to Authenticate User Actions
-    */
-
 	const clientId = req.headers[HEADERS.X_CLIENT_ID]?.toString();
-
 	if (!clientId) {
 		throw new BadRequestError(`❌ Error: ClientId Not Found!`, 404);
 	}
 
 	const keyStore = await KeyStoreService.findByUser(clientId);
 
-	const accessToken = req.headers[HEADERS.AUTHORIZATION]?.toString();
+	// If refreshToken? then handleRefreshToken else handleAccessToken
+	const refreshToken = req.headers[HEADERS.REFRESHTOKEN]?.toString();
+	if (refreshToken) {
+		
+		// Check if clientId same with userId decoded by refreshToken
+		if (matchUserId(clientId, refreshToken, keyStore.privateKey) == false) {
+			throw new BadRequestError(`❌ Error: JWT Verified Error!`, 500);
+		}
+		
+		req.keyStore = keyStore;
+		req.userId = clientId;
+		req.refreshToken = refreshToken;
+		return next();
+	} else {
+		const accessToken = req.headers[HEADERS.AUTHORIZATION]?.toString();
+		if (!accessToken) {
+			throw new BadRequestError(`❌ Error: AccessToken Not Found!`, 404);
+		}
 
-	if (!accessToken) {
-		throw new BadRequestError(`❌ Error: AccessToken Not Found!`, 404);
+		if (matchUserId(clientId, accessToken, keyStore.publicKey) == false) {
+			throw new BadRequestError(`❌ Error: JWT Verified Error!`, 500);
+		}
+
+		req.keyStore = keyStore;
+		return next();
 	}
-
-	const decode = await verifyJWT(accessToken, keyStore.publicKey);
-	
-	if (!decode) {
-		throw new BadRequestError(`❌ Error: Invalid Signature!`, 500);
-	}
-
-	console.log(decode)
-	if (clientId !== decode.userId) {
-		throw new BadRequestError(`❌ Error: ClientId Invalid!`, 300);
-	}
-
-	req.keyStore = keyStore;
-	return next();
 };
 
 module.exports = {

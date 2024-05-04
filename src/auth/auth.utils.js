@@ -1,6 +1,6 @@
 "use strict";
 const JWT = require("jsonwebtoken");
-const crypto = require('crypto');
+const crypto = require("crypto");
 const { BadRequestError } = require("../middlewares/error.res");
 
 const createTokenPair = async (payload, publicKey, privateKey) => {
@@ -14,16 +14,15 @@ const createTokenPair = async (payload, publicKey, privateKey) => {
 		expiresIn: "7 days",
 	});
 
-	await verifyJWT(accessToken, publicKey)
-	
+	await verifyJWT(accessToken, publicKey);
+
 	return { accessToken, refreshToken };
 };
 
 const generateKeyPair = () => {
-	
 	// Regular KeyPair
-	const privateKey = crypto.randomBytes(64).toString('hex');
-	const publicKey = crypto.randomBytes(64).toString('hex');
+	const privateKey = crypto.randomBytes(64).toString("hex");
+	const publicKey = crypto.randomBytes(64).toString("hex");
 
 	// Asymmetric KeyPair
 	/*
@@ -53,6 +52,18 @@ const verifyJWT = async (token, secretKey) => {
 			return decode;
 		}
 	});
-}	
+};
 
-module.exports = { createTokenPair, generateKeyPair, verifyJWT };
+const matchUserId = async (userId, token, secrectKey) => {
+	try {
+		const decode = await verifyJWT(token, secrectKey);
+		if (userId !== decode.userId) {
+			return false;
+		}
+		return true;
+	} catch (error) {
+		return false;
+	}
+};
+
+module.exports = { createTokenPair, generateKeyPair, verifyJWT, matchUserId };
