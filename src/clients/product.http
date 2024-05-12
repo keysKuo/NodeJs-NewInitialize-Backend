@@ -6,7 +6,7 @@ POST {{api_url}}/product/createProduct
 Content-Type: application/json
 x-api-key: 7fc10a33b6375d1a1eb03a4d50118e9db9c1d42b54735c035975dff0a11d83ad5ef08fa7ad42caaf4830d1aa2b5ecd3f5b7394fbbf2d4731b043ab58507aa895
 x-client-id: 66329bd1f629172f022297ab
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNDc5MTE4MiwiZXhwIjoxNzE0OTYzOTgyfQ.6_PoBB63_DPeW5kUn2WrscI0aEDvO9AYwp1dkAC3Ky0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNTE3ODQxNSwiZXhwIjoxNzE1MzUxMjE1fQ.8gFf48WQDrV4A9AZA1HcWOhLS-MIo_2nzLejgOjzAGY
 
  {
     "productName": "Sofa nằm",
@@ -21,3 +21,12 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2
         "expiry": 3
     }
 }
+
+
+### 
+
+GET {{api_url}}/product/findAllDraftsForShop
+Content-Type: application/json
+x-api-key: 7fc10a33b6375d1a1eb03a4d50118e9db9c1d42b54735c035975dff0a11d83ad5ef08fa7ad42caaf4830d1aa2b5ecd3f5b7394fbbf2d4731b043ab58507aa895
+x-client-id: 66329bd1f629172f022297ab
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNTE3ODQxNSwiZXhwIjoxNzE1MzUxMjE1fQ.8gFf48WQDrV4A9AZA1HcWOhLS-MIo_2nzLejgOjzAGY

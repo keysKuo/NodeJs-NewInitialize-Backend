@@ -11,7 +11,7 @@ router.post("/register", catchAsync(UserController.register));
 router.use(catchAsync(authPermission("0000"))); // check APIKEY
 
 /*
-	x-api-key		
+@headers	x-api-key		
 */
 router.post("/login", catchAsync(UserController.login));
 

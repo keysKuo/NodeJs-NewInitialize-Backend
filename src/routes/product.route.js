@@ -8,4 +8,6 @@ const router = express.Router();
 router.use(catchAsync(authToken));
 router.post('/createProduct', catchAsync(ProductController.createProduct));
 
+router.get('/findAllDraftsForShop', catchAsync(ProductController.findAllDraftsForShop));
+
 module.exports = router;

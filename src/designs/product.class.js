@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 const {
 	productModel,
 	clothingModel,
 	electronicModel,
-    furnitureModel,
+	furnitureModel,
 } = require("../models/product.model");
 
 class Product {
@@ -28,18 +28,30 @@ class Product {
 		this.attributes = attributes;
 	}
 
-	async createProduct() {
-		return await productModel.create(this);
+	static existedProductTypes() {
+		return {
+			"Electronic": Electronic,
+			"Clothing": Clothing,
+			"Furniture": Furniture
+		}
+	}
+
+	async createProduct(_id) {
+		return await productModel.create({ ...this, _id });
 	}
 }
 
 class Electronic extends Product {
 	async createProduct() {
-		const newElectronic = await electronicModel.create(this.attributes);
+		const newElectronic = await electronicModel.create({
+			...this.attributes,
+			shop: this.shop,
+		});
 		if (!newElectronic) {
 			throw new BadRequestError(`❌ Error: Create Clothing Fail!`);
 		}
-		const newProduct = await super.createProduct();
+
+		const newProduct = await super.createProduct(newElectronic._id);
 		if (!newProduct) {
 			throw new BadRequestError(`❌ Error: Create Product Fail!`);
 		}
@@ -50,12 +62,15 @@ class Electronic extends Product {
 
 class Clothing extends Product {
 	async createProduct() {
-		const newClothing = await clothingModel.create(this.attributes);
+		const newClothing = await clothingModel.create({
+			...this.attributes,
+			shop: this.shop
+		});
 		if (!newClothing) {
 			throw new BadRequestError(`❌ Error: Create Clothing Fail!`);
 		}
 
-		const newProduct = await super.createProduct();
+		const newProduct = await super.createProduct(newClothing._id);
 		if (!newProduct) {
 			throw new BadRequestError(`❌ Error: Create Product Fail!`);
 		}
@@ -66,12 +81,15 @@ class Clothing extends Product {
 
 class Furniture extends Product {
 	async createProduct() {
-		const newFurniture = await furnitureModel.create(this.attributes);
+		const newFurniture = await furnitureModel.create({
+			...this.attributes,
+			shop: this.shop
+		});
 		if (!newFurniture) {
 			throw new BadRequestError(`❌ Error: Create Furniture Fail!`);
 		}
 
-		const newProduct = await super.createProduct();
+		const newProduct = await super.createProduct(newFurniture._id);
 		if (!newProduct) {
 			throw new BadRequestError(`❌ Error: Create Product Fail!`);
 		}
@@ -79,6 +97,5 @@ class Furniture extends Product {
 		return newProduct;
 	}
 }
-
 
 module.exports = { Product, Clothing, Electronic, Furniture };

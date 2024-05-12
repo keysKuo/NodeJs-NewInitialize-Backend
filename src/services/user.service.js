@@ -34,13 +34,15 @@ class UserService {
 		if(!foundUser) {
 			throw new BadRequestError(`❌ Error: User Not Exists!`, 404);
 		}
-	
+		
+		// Create new TokenPair
 		const newTokenPair = await createTokenPair(
 			{ userId, email: foundUser.email },
 			keyStore.publicKey,
 			keyStore.privateKey
 		);
 
+		// Update refreshToken of keyStore
 		keyStore.refreshToken = newTokenPair.refreshToken;
 		keyStore.refreshTokensUsed = [...keyStore.refreshTokensUsed, refreshToken]
 		await keyStore.save();
@@ -50,52 +52,6 @@ class UserService {
 			newTokenPair,
 		};
 	}
-
-	static refreshTokenPair = async (refreshToken) => {
-		/*
-			1. Check if tokenPair refreshed or not ? if yes delete keyStore
-			2. Verify JWT old tokenPair
-			3. Refresh new tokenPair for user
-			=> Summary: RefreshToken only used once
-		*/
-
-		const refreshedKeyStore = await KeyStoreService.deleteRefreshedKeyStore(
-			refreshToken
-		);
-		if (refreshedKeyStore) {
-			throw new BadRequestError(`❌ Error: Abnormally Behavior!`, 300);
-		}
-
-		const holderKeyStore = await KeyStoreService.findByRefreshToken(
-			refreshToken
-		);
-
-		const { userId, email } = await verifyJWT(
-			refreshToken,
-			holderKeyStore.privateKey
-		);
-
-		const foundUser = await userModel.findOne({ email });
-
-		if (!foundUser) {
-			throw new BadRequestError(`❌ Error: User not exists!`, 404);
-		}
-
-		const newTokenPair = await createTokenPair(
-			{ userId, email },
-			holderKeyStore.publicKey,
-			holderKeyStore.privateKey
-		);
-
-		holderKeyStore.refreshToken = newTokenPair.refreshToken;
-		holderKeyStore.refreshTokensUsed = [...holderKeyStore.refreshTokensUsed, refreshToken]
-		await holderKeyStore.save();
-
-		return {
-			user: { userId, email },
-			newTokenPair,
-		};
-	};
 
 	static logout = async (keyStoreId) => {
 		const delkey = await KeyStoreService.deleteKeyStoreById(keyStoreId);
@@ -172,6 +128,51 @@ class UserService {
 
 		return {
 			user: newUser,
+		};
+	};
+
+	static refreshTokenPair = async (refreshToken) => {
+		/*
+			1. Check if tokenPair refreshed or not ? if yes delete keyStore
+			2. Verify JWT old tokenPair
+			3. Refresh new tokenPair for user
+			=> Summary: RefreshToken only used once
+		*/
+		const refreshedKeyStore = await KeyStoreService.deleteRefreshedKeyStore(
+			refreshToken
+		);
+		if (refreshedKeyStore) {
+			throw new BadRequestError(`❌ Error: Abnormally Behavior!`, 300);
+		}
+
+		const holderKeyStore = await KeyStoreService.findByRefreshToken(
+			refreshToken
+		);
+
+		const { userId, email } = await verifyJWT(
+			refreshToken,
+			holderKeyStore.privateKey
+		);
+
+		const foundUser = await userModel.findOne({ email });
+
+		if (!foundUser) {
+			throw new BadRequestError(`❌ Error: User not exists!`, 404);
+		}
+
+		const newTokenPair = await createTokenPair(
+			{ userId, email },
+			holderKeyStore.publicKey,
+			holderKeyStore.privateKey
+		);
+
+		holderKeyStore.refreshToken = newTokenPair.refreshToken;
+		holderKeyStore.refreshTokensUsed = [...holderKeyStore.refreshTokensUsed, refreshToken]
+		await holderKeyStore.save();
+
+		return {
+			user: { userId, email },
+			newTokenPair,
 		};
 	};
 }
