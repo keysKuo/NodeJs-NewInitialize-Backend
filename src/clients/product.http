@@ -1,12 +1,15 @@
 @api_url = http://localhost:2405/v1/api
-
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQ0YjE1OTMzNDI2NWQ4MzljNTUyYjAiLCJlbWFpbCI6Im5rZXlza3VvMTI0N0BnbWFpbC5jb20iLCJpYXQiOjE3MTU3NzgyMDEsImV4cCI6MTcxNTk1MTAwMX0.y6tHm2AllPXphohRCejzQ_KtWggr0YT_dFm1GZ7NNTA
+@refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQ0YjE1OTMzNDI2NWQ4MzljNTUyYjAiLCJlbWFpbCI6Im5rZXlza3VvMTI0N0BnbWFpbC5jb20iLCJpYXQiOjE3MTU3NzgyMDEsImV4cCI6MTcxNjM4MzAwMX0.g96jdk6fIXUkcCr9kCJTKvexNni9qlAxBv8qDSKFS6k
+@api_key = 688014e63f23f0d1d00779fb5a713376d3d53cbcb59bb787ad04922f86bea87ace437da70313101eba1e8a8e828e80ec99546d1bf9668a7979115a29b6ad62db
+@client_id = 6644b159334265d839c552b0
 ###
 
 POST {{api_url}}/product/createProduct
 Content-Type: application/json
-x-api-key: 7fc10a33b6375d1a1eb03a4d50118e9db9c1d42b54735c035975dff0a11d83ad5ef08fa7ad42caaf4830d1aa2b5ecd3f5b7394fbbf2d4731b043ab58507aa895
-x-client-id: 66329bd1f629172f022297ab
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNTE3ODQxNSwiZXhwIjoxNzE1MzUxMjE1fQ.8gFf48WQDrV4A9AZA1HcWOhLS-MIo_2nzLejgOjzAGY
+x-api-key: {{api_key}}
+x-client-id: 6644b159334265d839c552b0
+Authorization: {{access_token}}
 
  {
     "productName": "Sofa nằm",
@@ -14,7 +17,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2
     "desc": "Sản phẩm nhập khầu từ hàn quốc với nhiều mẫu mã",
     "price": 2500000,
     "productType": "Furniture",
-    "shop": "66329bd1f629172f022297ab",
+    "shop": "6644b159334265d839c552b0",
     "attributes": {
         "brand": "Vua",
         "origin": "Trung quốc",
@@ -27,6 +30,30 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2
 
 GET {{api_url}}/product/findAllDraftsForShop
 Content-Type: application/json
-x-api-key: 7fc10a33b6375d1a1eb03a4d50118e9db9c1d42b54735c035975dff0a11d83ad5ef08fa7ad42caaf4830d1aa2b5ecd3f5b7394fbbf2d4731b043ab58507aa895
-x-client-id: 66329bd1f629172f022297ab
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNTE3ODQxNSwiZXhwIjoxNzE1MzUxMjE1fQ.8gFf48WQDrV4A9AZA1HcWOhLS-MIo_2nzLejgOjzAGY
+x-api-key: {{api_key}}
+x-client-id: {{client_id}}
+Authorization: {{access_token}}
+### 
+
+GET {{api_url}}/product/findAllPublishForShop
+Content-Type: application/json
+x-api-key: {{api_key}}
+x-client-id: {{client_id}}
+Authorization: {{access_token}}
+###
+
+PUT {{api_url}}/product/publishProductByShop
+Content-Type: application/json
+x-api-key: {{api_key}}
+x-client-id: {{client_id}}
+Authorization: {{access_token}}
+
+{
+    "shopId": "6644b159334265d839c552b0",
+    "productId": "6644bc6ff66d334afc0bb56e"
+}
+
+###
+
+GET {{api_url}}/product/searchProducts/mẫu
+Content-Type: application/json

@@ -3,7 +3,9 @@
 const mongoose = require("mongoose");
 const { db: { host, name, port }} = require('../configs/config.mongodb');
 
-const connectString = `mongodb://${host}:${port}/${name}`;
+// const connectString = `mongodb://${host}:${port}/${name}`;
+const connectString = `mongodb+srv://nonkeys124:xOJafmT2rTc6Tr47@ezteam.yqofwng.mongodb.net/EzTeam`;
+
 const { countConnect } = require("../helpers/check.connect");
 
 class Database {

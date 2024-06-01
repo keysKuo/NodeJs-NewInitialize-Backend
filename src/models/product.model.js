@@ -35,6 +35,8 @@ const Product = new Schema(
 	}
 );
 
+Product.index({ productName: 'text', desc: 'text'});
+
 Product.pre("save", function (next) {
 	this.slug = slugify(this.productName, { lower: true });
 	next();

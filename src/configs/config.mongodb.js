@@ -7,7 +7,7 @@ const dev = {
 		port: process.env.DEV_PORT || 2405,
 	},
 	db: {
-		host: process.env.DEV_DB_HOST || "localhost",
+		host: process.env.DEV_DB_HOST || "127.0.0.1",
 		port: process.env.DEV_DB_PORT || 27017,
 		name: process.env.DEV_DB_NAME || "dbDev",
 	},
@@ -17,10 +17,10 @@ const dev = {
 
 const production = {
 	app: {
-		port: process.env.PROD_PORT || 5000,
+		port: process.env.PROD_PORT || 2405,
 	},
 	db: {
-		host: process.env.PROD_DB_HOST || "localhost",
+		host: process.env.PROD_DB_HOST || "127.0.0.1",
 		port: process.env.PROD_DB_HOST || 27017,
 		name: process.env.PROD_DB_HOST || "dbProduction",
 	},

@@ -1,11 +1,12 @@
 @api_url = http://localhost:2405/v1/api
-@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNDY1MTM2MSwiZXhwIjoxNzE0ODI0MTYxfQ.e_RiAEJ7ZBj0dDbrtmupp0jh80EF8MRkrLjQ8tsk1rI
+@access_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQ0YjE1OTMzNDI2NWQ4MzljNTUyYjAiLCJlbWFpbCI6Im5rZXlza3VvMTI0N0BnbWFpbC5jb20iLCJpYXQiOjE3MTU3NzgyMDEsImV4cCI6MTcxNTk1MTAwMX0.y6tHm2AllPXphohRCejzQ_KtWggr0YT_dFm1GZ7NNTA
+@refresh_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQ0YjE1OTMzNDI2NWQ4MzljNTUyYjAiLCJlbWFpbCI6Im5rZXlza3VvMTI0N0BnbWFpbC5jb20iLCJpYXQiOjE3MTU3NzgyMDEsImV4cCI6MTcxNjM4MzAwMX0.g96jdk6fIXUkcCr9kCJTKvexNni9qlAxBv8qDSKFS6k
+@api_key = 688014e63f23f0d1d00779fb5a713376d3d53cbcb59bb787ad04922f86bea87ace437da70313101eba1e8a8e828e80ec99546d1bf9668a7979115a29b6ad62db
 
 ###
 
 POST {{api_url}}/user/register
 Content-Type: application/json 
-x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNDgwMTQ2NCwiZXhwIjoxNzE1NDA2MjY0fQ.x9xumyv0bm0LytjqaJTs8a_1fvP9ZviC46auCzF4hF0
 
 {
     "fullname": "Kuo Nhan Dung",
@@ -18,10 +19,10 @@ x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2Mj
 
 POST {{api_url}}/user/login
 Content-Type: application/json
-x-api-key: 7fc10a33b6375d1a1eb03a4d50118e9db9c1d42b54735c035975dff0a11d83ad5ef08fa7ad42caaf4830d1aa2b5ecd3f5b7394fbbf2d4731b043ab58507aa895
+x-api-key: {{api_key}}
 
 {
-    "email": "nkeyskuo124@gmail.com",
+    "email": "nkeyskuo1247@gmail.com",
     "password": "9952811"
 }
 
@@ -29,8 +30,8 @@ x-api-key: 7fc10a33b6375d1a1eb03a4d50118e9db9c1d42b54735c035975dff0a11d83ad5ef08
 
 POST {{api_url}}/user/logout
 Content-Type: application/json
-x-api-key: 7fc10a33b6375d1a1eb03a4d50118e9db9c1d42b54735c035975dff0a11d83ad5ef08fa7ad42caaf4830d1aa2b5ecd3f5b7394fbbf2d4731b043ab58507aa895
-x-client-id: 66329bd1f629172f022297ab
+x-api-key: {{api_key}}
+x-client-id: 6644b159334265d839c552b0
 Authorization: {{access_token}}
 
 
@@ -38,7 +39,7 @@ Authorization: {{access_token}}
 
 POST {{api_url}}/user/refreshTokenPair
 Content-Type: application/json
-x-api-key: 7fc10a33b6375d1a1eb03a4d50118e9db9c1d42b54735c035975dff0a11d83ad5ef08fa7ad42caaf4830d1aa2b5ecd3f5b7394fbbf2d4731b043ab58507aa895
-x-client-id: 66329bd1f629172f022297ab
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNDkxNTExMSwiZXhwIjoxNzE1MDg3OTExfQ.0z1DVN2vY6rEf6r6VIJ6vz_ccJRP6T_sfBPAZdl1gOc
-x-rtoken-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyOWJkMWY2MjkxNzJmMDIyMjk3YWIiLCJlbWFpbCI6Im5rZXlza3VvMTI0QGdtYWlsLmNvbSIsImlhdCI6MTcxNDkxNTExMSwiZXhwIjoxNzE1NTE5OTExfQ.lNTcomvMtbwN8UJhL99DhTGHm6Ay9JvNBnOG0dvcZMo
+x-api-key: {{api_key}}
+x-client-id: 6644b159334265d839c552b0
+Authorization: {{access_token}}
+x-rtoken-id: {{refresh_token}}

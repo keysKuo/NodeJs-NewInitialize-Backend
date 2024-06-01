@@ -52,10 +52,11 @@ const authToken = async (req, res, next) => {
 	const refreshToken = req.headers[HEADERS.REFRESHTOKEN]?.toString();
 	if (refreshToken) {
 		// Check if clientId same with userId decoded by refreshToken
-		if (matchUserId(clientId, refreshToken, keyStore.privateKey) == false) {
+		const isMatchedId = await matchUserId(clientId, refreshToken, keyStore.privateKey);
+		if (!isMatchedId) {
 			throw new BadRequestError(`❌ Error: JWT Verified Error!`, 500);
 		}
-		
+
 		req.keyStore = keyStore;
 		req.userId = clientId;
 		req.refreshToken = refreshToken;
@@ -66,7 +67,8 @@ const authToken = async (req, res, next) => {
 			throw new BadRequestError(`❌ Error: AccessToken Not Found!`, 404);
 		}
 
-		if (matchUserId(clientId, accessToken, keyStore.publicKey) == false) {
+		const isMatchedId = await matchUserId(clientId, accessToken, keyStore.publicKey);
+		if (!isMatchedId) {
 			throw new BadRequestError(`❌ Error: JWT Verified Error!`, 500);
 		}
 

@@ -6,7 +6,7 @@ POST {{api_url}}/apikey/create
 Content-Type: application/json
 
 {
-    "userId": "6632940f1f626fecd0ff523a",
+    "userId": "6644b159334265d839c552b0",
     "keyName": "nkeysKuo ApiKey"
 }
 
