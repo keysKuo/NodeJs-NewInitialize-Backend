@@ -1,31 +1,21 @@
 "use strict";
-// lv0
 
 const dev = {
-	app: {
-		port: process.env.DEV_PORT || 2405,
-	},
-	db: {
-		host: process.env.DEV_DB_HOST || "localhost",
-		port: process.env.DEV_DB_PORT || 27017,
-		name: process.env.DEV_DB_NAME || "dbDev",
-	},
+	port: 2405,
+	database_url: `mongodb://127.0.0.1:27017/EzSound_Dev`,
 };
 
-// lv1
+const test = {
+	port: process.env.PORT || 2406,
+	database_url: process.env.DATABASE_URL || `mongodb://127.0.0.1:27017/EzSound_Test`,
+};
 
 const production = {
-	app: {
-		port: process.env.PROD_PORT || 5000,
-	},
-	db: {
-		host: process.env.PROD_DB_HOST || "localhost",
-		port: process.env.PROD_DB_HOST || 27017,
-		name: process.env.PROD_DB_HOST || "dbProduction",
-	},
+	port: process.env.PORT || 2407,
+	database_url: process.env.DATABASE_URL || `mongodb://127.0.0.1:27017/EzSound_Production`,
 };
 
-const config = { dev, production };
+const config = { dev, production, test };
 const env = process.env.NODE_ENV?.trim() || "dev";
 
 module.exports = config[env];
